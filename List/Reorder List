@@ -1,0 +1,50 @@
+iven a singly linked list L: L0→L1→…→Ln-1→Ln,
+reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…
+
+You must do this in-place without altering the nodes' values.
+
+For example,
+Given {1,2,3,4}, reorder it to {1,4,2,3}.
+
+
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        ListNode *second_head=findhalf(head);
+        ListNode *reverse_head=reverse(second_head);
+        ListNode *late;
+        while(reverse_head){
+            late=reverse_head->next;
+            reverse_head->next=head->next;
+            head->next=reverse_head;
+            head=head->next->next;
+            reverse_head=late;
+            
+        }
+       
+    }
+    ListNode* findhalf(ListNode * head){
+        if(!head) return NULL;
+        ListNode *fast=head,*slow=head;
+        while(fast&&fast->next){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        ListNode* second_head=slow->next;//注这里不能返回slow
+        slow->next=NULL;//要加这句，不然原head就还是长长的一条
+        return second_head;
+        
+    }
+    ListNode * reverse(ListNode *head){
+        if(!head) return NULL;
+        ListNode*pre=new ListNode(-1);
+        pre->next=head;
+        while(head->next){
+            ListNode *p=head->next;
+            head->next=p->next;
+            p->next=pre->next;
+            pre->next=p;
+        }
+        return pre->next;
+    }
+};
