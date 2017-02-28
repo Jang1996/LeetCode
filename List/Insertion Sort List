@@ -1,0 +1,23 @@
+Sort a linked list using insertion sort.
+
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        if(!head) return NULL;
+        ListNode* pre=new ListNode(-1),*p=head,*q;
+        
+        while(head){
+            p=head->next;
+            head->next=NULL;
+            q=pre;
+            while(q->next&&q->next->val<head->val  )
+                    q=q->next;
+             head->next=q->next;
+             q->next=head;
+             head=p;
+            }
+        
+        return pre->next;
+        
+    }
+};
