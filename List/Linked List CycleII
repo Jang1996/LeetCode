@@ -1,0 +1,31 @@
+Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
+
+Note: Do not modify the linked list.
+
+Follow up:
+Can you solve it without using extra space?
+
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+      ListNode *p=findPoint(head),*q=head;
+      if(!p) return NULL;
+      while(p!=q){
+          p=p->next;
+          q=q->next;
+      }
+      return p;
+    
+    }
+    //有环的情况，找到第一次相碰点
+    ListNode *findPoint(ListNode *head){
+        if(!head) return NULL;
+        ListNode *fast=head,*slow=head;
+        while(fast&&fast->next){
+            slow=slow->next;
+            fast=fast->next->next;
+            if(slow==fast) return slow;
+        }
+        return NULL;
+    }
+};
